@@ -1,15 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+import { useDispatch,useSelector } from 'react-redux';
+import { fetchUsers } from '../actions/users';
+import {Table} from './index';
 
-DataGrid.propTypes = {
-    
-};
 
-function DataGrid(props) {
+
+function DataGrid() {
+     const dispatch = useDispatch();
+     useEffect(()=>{
+         dispatch(fetchUsers())
+     },[]) 
+     const isFetching = useSelector((state)=>state.Users.isFetching);
+     const users = useSelector((state)=>state.Users.users)
     return (
-        <div>
-            
-        </div>
+        <>
+        {isFetching?<div>Loading</div>:<Table users={users} />}
+        </>
     );
 }
 
