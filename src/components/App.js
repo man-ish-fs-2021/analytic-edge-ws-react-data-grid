@@ -1,4 +1,3 @@
-import { useSelector } from 'react-redux';
 import {DataGrid} from './index';
 
 function App() {
