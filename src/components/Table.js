@@ -4,7 +4,9 @@ const SortingDirection = {
     DESCENDING : "DESCENDING",
     UNSORTED : "UNSORTED"
   }
+//   creating an enum like function to store the direction of the sort 
   Object.freeze(SortingDirection);
+//   sorting data based on their sorting order
   const sortData = (data,sortKey,sortingDirection)=>{
       data.sort((a,b)=>{
           const valueA = a[sortKey];
@@ -23,6 +25,7 @@ const SortingDirection = {
           }
       })
   }
+//   sets next sorting direction
   const getNextSortingDirection = (sortingDirection)=>{
     if (
         sortingDirection === SortingDirection.UNSORTED ||
@@ -32,6 +35,9 @@ const SortingDirection = {
       }
       return SortingDirection.ASCENDING;
   }
+  const getFilteredRows = (rows,filterKey)=>{
+    return rows.filter((row)=>Object.values(row).some((s)=>(""+s).toLowerCase().includes(filterKey)))
+  }
 function Table(props) {
     const {users} = props;
     const [flattenedData,setFlattenedData] = useState({
@@ -39,6 +45,7 @@ function Table(props) {
         data: []
     });
     const [sortingDirections, setSortingDirections] = useState({});
+    const [inputFieldValue,setInputFieldValue] = useState('');
     const sortColumn = (sortKey)=>{
         const newFlattenedData = {
             ...flattenedData,
@@ -85,6 +92,7 @@ function Table(props) {
   
     return (
         <>
+        <input value={inputFieldValue} onChange={(e)=>{ setInputFieldValue(e.target.value)}} />
         <table>
             <thead>
             <tr>
@@ -96,7 +104,7 @@ function Table(props) {
             </tr>
             </thead>
             <tbody>
-                    {flattenedData.data.map((value,index)=>(
+                    {getFilteredRows(flattenedData.data,inputFieldValue).map((value,index)=>(
                         <tr key={`${index}-${value}`}>
                             {flattenedData.headers.map((header,index)=>(
                                 <td key={`${index}-${header}`}>
