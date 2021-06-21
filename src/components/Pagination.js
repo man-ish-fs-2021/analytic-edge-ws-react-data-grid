@@ -56,6 +56,7 @@ function Pagination(props) {
         />
         /<span>{allPagesNumber}</span>
       </div>
+
       <div
         className={`pagination__button pagination__page-next ${
           currentPage === allPagesNumber && "pagination__button--disabled"

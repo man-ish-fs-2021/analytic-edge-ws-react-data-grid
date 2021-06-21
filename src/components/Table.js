@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "../userTable.css";
 const SortingDirection = {
   ASCENDING: "ASCENDING",
   DESCENDING: "DESCENDING",
@@ -97,15 +98,20 @@ function Table(props) {
 
   return (
     <>
-      <input
-        value={inputFieldValue}
-        onChange={(e) => {
-          setInputFieldValue(e.target.value);
-        }}
-      />
-      <table>
-        <thead>
-          <tr>
+      <div className="global-filter">
+        <span>Global Filter: </span>
+        <input
+          value={inputFieldValue}
+          onChange={(e) => {
+            setInputFieldValue(e.target.value);
+          }}
+        />
+        <div>Click on header to sort.</div>
+      </div>
+
+      <table className="table">
+        <thead className="table-header">
+          <tr className="table-header-row">
             {flattenedData.headers.map((dataString, index) => (
               <th
                 key={`${index}-${dataString}`}
@@ -118,10 +124,10 @@ function Table(props) {
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="table-body">
           {getFilteredRows(flattenedData.data, inputFieldValue).map(
             (value, index) => (
-              <tr key={`${index}-${value}`}>
+              <tr key={`${index}-${value}`} className="table-row">
                 {flattenedData.headers.map((header, index) => (
                   <td key={`${index}-${header}`}>
                     {value[header.toLowerCase()]}
