@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../postsTable.css";
+import "../commentsTable.css";
 const SortingDirection = {
   ASCENDING: "ASCENDING",
   DESCENDING: "DESCENDING",
@@ -41,9 +41,9 @@ const getFilteredRows = (rows, filterKey) => {
     Object.values(row).some((s) => ("" + s).toLowerCase().includes(filterKey))
   );
 };
-function PostsTable(props) {
-  const { posts } = props;
-  console.log("posts", posts);
+function CommentsTable(props) {
+  const { comments } = props;
+  console.log("comments", comments);
   const [flattenedData, setFlattenedData] = useState({
     headers: [],
     data: [],
@@ -81,8 +81,8 @@ function PostsTable(props) {
   const flattenedTableData = () => {
     const data = [];
     // console.log(users)
-    for (const { id, title, body, userId } of posts) {
-      data.push({ id, title, body, userid: userId });
+    for (const { id, name, email, body, postId } of comments) {
+      data.push({ id, email, name, body, postid: postId });
     }
     // console.log("data", data);
     const flattenedHeaders = objectHeaders();
@@ -90,7 +90,7 @@ function PostsTable(props) {
   };
   const objectHeaders = () => {
     let objectKeys = [];
-    objectKeys.push("id", "title", "body", "userid");
+    objectKeys.push("id", "name", "email", "body", "postId");
     return objectKeys.map((x) => {
       return x.toUpperCase();
     });
@@ -98,7 +98,7 @@ function PostsTable(props) {
 
   return (
     <>
-      <div className="title">Posts</div>
+      <div className="title">Comments</div>
       <div className="global-filter">
         <span>Global Filter: </span>
         <input
@@ -110,9 +110,9 @@ function PostsTable(props) {
         <div>Click on header to sort.</div>
       </div>
 
-      <table className="post-table">
-        <thead className="post-table-header">
-          <tr className="post-table-header-row">
+      <table className="comment-table">
+        <thead className="comment-table-header">
+          <tr className="comment-table-header-row">
             {flattenedData.headers.map((dataString, index) => (
               <th
                 key={`${index}-${dataString}`}
@@ -125,10 +125,10 @@ function PostsTable(props) {
             ))}
           </tr>
         </thead>
-        <tbody className="post-table-body">
+        <tbody className="comment-table-body">
           {getFilteredRows(flattenedData.data, inputFieldValue).map(
             (value, index) => (
-              <tr key={`${index}-${value}`} className="post-table-row">
+              <tr key={`${index}-${value}`} className="comment-table-row">
                 {flattenedData.headers.map((header, index) => (
                   <td key={`${index}-${header}`}>
                     {value[header.toLowerCase()]}
@@ -143,4 +143,4 @@ function PostsTable(props) {
   );
 }
 
-export default PostsTable;
+export default CommentsTable;

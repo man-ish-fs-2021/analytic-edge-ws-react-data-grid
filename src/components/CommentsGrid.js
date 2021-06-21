@@ -1,32 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPosts } from "../actions/posts";
-import { fetchUsers } from "../actions/users";
+import { CommentsTable, Pagination } from "./index";
 import { fetchComments } from "../actions/comments";
-import { Table, Pagination } from "./index";
-
-function DataGrid() {
-  const isFetching = useSelector((state) => state.Users.isFetching);
-
-  const users = useSelector((state) => state.Users.users);
-
-  console.log("users def", users);
+function PostGrid() {
   const dispatch = useDispatch();
+  const isFetching = useSelector((state) => state.Comments.isFetching);
+  const comments = useSelector((state) => state.Comments.comments);
+  console.log("comments def", comments);
 
-  const [displayedData, setDisplayedData] = useState(users.slice(0, 5));
+  const [displayedData, setDisplayedData] = useState(comments.slice(0, 5));
   const [isDisplayedData, setIsDisplayedData] = useState(false);
   const itemsPerPage = 5;
-  const allPages = Math.ceil(users.length / itemsPerPage);
+  const allPages = Math.ceil(comments.length / itemsPerPage);
   console.log(isDisplayedData);
   const onPageChange = (page) => {
     const startItem = (page - 1) * itemsPerPage;
     const endItem = page * itemsPerPage;
-    setDisplayedData(users.slice(startItem, endItem));
+    setDisplayedData(comments.slice(startItem, endItem));
   };
   //   dispatch(fetchUsers());
   useEffect(() => {
-    dispatch(fetchUsers());
-    dispatch(fetchPosts());
     dispatch(fetchComments());
   }, [displayedData, dispatch]);
 
@@ -37,13 +30,15 @@ function DataGrid() {
         <div>Loading</div>
       ) : (
         <div>
-          <Table users={isDisplayedData ? displayedData : users.slice(0, 5)} />{" "}
+          <CommentsTable
+            comments={isDisplayedData ? displayedData : comments.slice(0, 5)}
+          />{" "}
         </div>
       )}
       <Pagination
         allPagesNumber={allPages}
         itemsPerPage={5}
-        itemsNumber={users.length}
+        itemsNumber={comments.length}
         pageChange={onPageChange}
         dataDisplayed={setIsDisplayedData}
       />
@@ -51,4 +46,4 @@ function DataGrid() {
   );
 }
 
-export default DataGrid;
+export default PostGrid;
