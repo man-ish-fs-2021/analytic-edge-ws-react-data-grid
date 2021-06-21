@@ -1,11 +1,9 @@
-import {DataGrid} from './index';
+import { DataGrid } from "./index";
 
 function App() {
-  
- 
   return (
     <div className="App">
-      <DataGrid/>
+      <DataGrid />
     </div>
   );
 }
