@@ -1,14 +1,14 @@
-import { START_FETCHING, DATA_FETCHED } from "./actiontypes";
+import { START_FETCHING_POSTS, POST_FETCHED } from "./actiontypes";
 
-export function fetchUsers() {
+export function fetchPosts() {
   return (dispatch) => {
-    const url = "https://jsonplaceholder.typicode.com/users";
+    const url = "https://jsonplaceholder.typicode.com/posts";
     dispatch(fetchingInProgress());
     const startFetch = async () => {
       const response = await fetch(url);
       // console.log(response);
       const data = await response.json();
-      console.log("users Data", data);
+      console.log("posts data", data);
       dispatch(fetchedData(data));
     };
     startFetch();
@@ -17,12 +17,12 @@ export function fetchUsers() {
 
 export function fetchingInProgress() {
   return {
-    type: START_FETCHING,
+    type: START_FETCHING_POSTS,
   };
 }
-export function fetchedData(users) {
+export function fetchedData(posts) {
   return {
-    type: DATA_FETCHED,
-    users,
+    type: POST_FETCHED,
+    posts,
   };
 }

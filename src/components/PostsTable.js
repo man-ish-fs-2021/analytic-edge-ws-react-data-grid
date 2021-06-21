@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../userTable.css";
+import "../postsTable.css";
 const SortingDirection = {
   ASCENDING: "ASCENDING",
   DESCENDING: "DESCENDING",
@@ -42,8 +42,8 @@ const getFilteredRows = (rows, filterKey) => {
   );
 };
 function Table(props) {
-  const { users } = props;
-  console.log("users", users);
+  const { posts } = props;
+  console.log("posts", posts);
   const [flattenedData, setFlattenedData] = useState({
     headers: [],
     data: [],
@@ -81,8 +81,8 @@ function Table(props) {
   const flattenedTableData = () => {
     const data = [];
     // console.log(users)
-    for (const { id, name, email, phone, website, company } of users) {
-      data.push({ id, email, name, phone, website, company: company.name });
+    for (const { id, title, body } of posts) {
+      data.push({ id, title, body });
     }
     // console.log("data", data);
     const flattenedHeaders = objectHeaders();
@@ -90,7 +90,7 @@ function Table(props) {
   };
   const objectHeaders = () => {
     let objectKeys = [];
-    objectKeys.push("id", "name", "email", "phone", "website", "company");
+    objectKeys.push("id", "title", "body");
     return objectKeys.map((x) => {
       return x.toUpperCase();
     });
@@ -98,7 +98,7 @@ function Table(props) {
 
   return (
     <>
-      <div className="title">Users</div>
+      <div className="title">Posts</div>
       <div className="global-filter">
         <span>Global Filter: </span>
         <input

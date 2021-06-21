@@ -53,6 +53,7 @@ function Pagination(props) {
           className="pagination__current-page"
           onChange={(e) => validateInput(e.target.value)}
           value={currentPage}
+          readOnly
         />
         /<span>{allPagesNumber}</span>
       </div>

@@ -1,30 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts } from "../actions/posts";
-import { fetchUsers } from "../actions/users";
-import { Table, Pagination } from "./index";
+// import { fetchUsers } from "../actions/users";
+import { PostsTable, Pagination } from "./index";
 
-function DataGrid() {
-  const isFetching = useSelector((state) => state.Users.isFetching);
-
-  const users = useSelector((state) => state.Users.users);
-
-  console.log("users def", users);
+function PostGrid() {
   const dispatch = useDispatch();
+  const isFetching = useSelector((state) => state.Posts.isFetching);
+  const posts = useSelector((state) => state.Posts.posts);
+  console.log("posts def", posts);
 
-  const [displayedData, setDisplayedData] = useState(users.slice(0, 5));
+  const [displayedData, setDisplayedData] = useState(posts.slice(0, 5));
   const [isDisplayedData, setIsDisplayedData] = useState(false);
   const itemsPerPage = 5;
-  const allPages = Math.ceil(users.length / itemsPerPage);
+  const allPages = Math.ceil(posts.length / itemsPerPage);
   console.log(isDisplayedData);
   const onPageChange = (page) => {
     const startItem = (page - 1) * itemsPerPage;
     const endItem = page * itemsPerPage;
-    setDisplayedData(users.slice(startItem, endItem));
+    setDisplayedData(posts.slice(startItem, endItem));
   };
   //   dispatch(fetchUsers());
   useEffect(() => {
-    dispatch(fetchUsers());
     dispatch(fetchPosts());
   }, [displayedData, dispatch]);
 
@@ -35,13 +32,15 @@ function DataGrid() {
         <div>Loading</div>
       ) : (
         <div>
-          <Table users={isDisplayedData ? displayedData : users.slice(0, 5)} />{" "}
+          <PostsTable
+            posts={isDisplayedData ? displayedData : posts.slice(0, 5)}
+          />{" "}
         </div>
       )}
       <Pagination
         allPagesNumber={allPages}
         itemsPerPage={5}
-        itemsNumber={users.length}
+        itemsNumber={posts.length}
         pageChange={onPageChange}
         dataDisplayed={setIsDisplayedData}
       />
@@ -49,4 +48,4 @@ function DataGrid() {
   );
 }
 
-export default DataGrid;
+export default PostGrid;
